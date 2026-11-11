@@ -1,0 +1,37 @@
+# Segredos da Chef — atividade de cadastros Django
+
+Projeto didático Django com banco SQLite. Inclui cadastros de receitas e categorias (criar, listar, detalhar, editar e excluir), cadastro/login de usuários e envio/gestão administrativa de mensagens de contato.
+
+## Requisitos
+- Python 3.12 ou superior compatível com a versão do Django instalada
+- Django (versão definida em `requirements.txt`)
+- Pillow para upload de imagens
+
+## Preparar o projeto no PyCharm / terminal
+1. Abra a pasta que contém `manage.py`. O ZIP não inclui o banco antigo: ele estava incompatível com o modelo de usuário personalizado. O comando `migrate` criará um banco novo. Se estiver copiando os arquivos para uma pasta antiga, renomeie o `db.sqlite3` existente para `db_backup.sqlite3` antes de iniciar, para manter uma cópia.
+2. Crie/ative o ambiente virtual do projeto, se necessário.
+3. Instale as dependências: `python -m pip install -r requirements.txt`.
+4. Aplique as migrações existentes: `python manage.py migrate`. Se o Django indicar alterações de modelos sem migração, execute `python manage.py makemigrations` e depois `python manage.py migrate`.
+5. Crie um administrador: `python manage.py createsuperuser`.
+6. Inicie o servidor: `python manage.py runserver`.
+7. Abra `http://127.0.0.1:8000/`.
+
+## Rotas principais
+- `/` — página inicial
+- `/receitas/` — listagem e busca de receitas
+- `/receitas/cadastrar/` — cadastrar receita
+- `/receitas/categorias/` — gerenciar categorias
+- `/usuarios/cadastro/` — criar conta
+- `/usuarios/login/` — entrar
+- `/contato/` — enviar mensagem
+- `/contato/mensagens/` — administrar mensagens (requer conta staff)
+- `/usuarios/` — administrar usuários (requer conta staff)
+- `/admin/` — administração Django
+
+## Observações
+- As páginas de gestão de usuários e mensagens são restritas a usuários staff.
+- `Categoria` usa `on_delete=PROTECT` para impedir a exclusão de categorias que ainda têm receitas associadas. A interface exibe uma mensagem compreensível quando isso acontece.
+- O campo slug é gerado a partir do nome/título quando deixado vazio e é validado para evitar duplicidades.
+- Este projeto é para desenvolvimento e avaliação acadêmica. Antes de publicar na internet, configure uma chave secreta segura, `DEBUG=False`, hosts permitidos e demais medidas de produção.
+
+Consulte também `PENDENCIAS_MVP.md` para os pontos que o grupo deve conferir antes de enviar a atividade.
